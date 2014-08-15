@@ -1,20 +1,14 @@
 ### 1.3    使用Express框架开发Nodejs应用
 
-####目录
-本章重点介绍Express4.x的开发框架，其中还会涉及到Mongoose,Ejs,Bootstrap等相关内容。
+> 这里需要增加引言，包括 为什么要写这一节，这一节具体解决了什么问题，包括了什么内容，(大于200字)
 
-+ 开发环境
-+ 建立工程
-+ 目录结构
-+ Express4.x配置文件
-+ Ejs模板使用
-+ Bootstrap界面框架
-+ 路由功能
-+ Session使用
-+ 页面提示
-+ 页面访问控制  
+> 目录部分不需要了
 
 ###1.3.1 开发环境
+
+> 列出系统环境及用到技术的版本
+> 如果你开发在Mac上，还需要指明，win, linux只否支持，而操作是一致的。
+
 `Mac 64 bit`  
 MongoDB v 2.4.3
 >
@@ -35,8 +29,15 @@ Tue May 14 09:24:51.827 [websvr] admin web console waiting for connections on po
 `npm v 1.4.9`  
 
 ###1.3.2 建立工程  
+
+> 之前应该有介绍建立工程的章节，这里增加应增加引用，比如 标准的Node工程参考1.2节。
+> 接下需要描述 Express工程 与 Node工程的区别
+
 路径 ：`cd /zZpig/Document/worke/`    
 创建工程，因为在express3.x中只需要在命令行中键入 `npm install express -g`之后就将express进行全局安装，这也就意味着你可以  
+
+> 增加express参数-g和-e的解释。
+
 通过命令:`express -e myFirstWebApp`在你的工作目录中创建一个如以下的文件结构：  
 >
 package.json  
@@ -52,6 +53,8 @@ public
 /views  
 /views/index.ejs    
 
+> express4文件结构似乎有变化吧，多了bin目录，需要解释。
+
 之后在工作目录中键入`node app` 或者`npm start`就可以启动我们的app了  
 但是在目前的Express4.x中以上的命令不管用了.为此，我们还需要安装:`npm install -g express-generator`  
 通过这个我们就可以像上面一样，进行工程的创建,特别需要注意的是，最好加上`sudo`也就是`sudo npm install -g express-generator`  
@@ -60,6 +63,9 @@ pm2这个第三方包。
 ### 安装：`sudo npm install pm2@latest -g`  
 启动我们的项目： `pm2 start app.js`  
 更多的关于pm2使用方法的帮助：键入命令：`pm2 -h`    
+
+> pm2是一个相对复杂的包，后面需要有单独的文章进行介绍，如果没有这里需要说清楚，为什么用pm2。
+> 另外，开发环境我建议用supervisor
 
 ###1.3.3 目录结构说明
 
@@ -70,7 +76,9 @@ public，静态文件(css,js,img)
 routes，路由文件(MVC中的C,controller)  
 Views，页面文件(Ejs模板)  
 
-这里有一点需要说明的是，关于模板引擎，在这里我们使用Ejs,其渲染速度比jade要快，而且语法简单十分方便控制  
+这里有一点需要说明的是，关于模板引擎，在这里我们使用Ejs,其渲染速度比jade要快，而且语法简单十分方便控制 
+
+> Ejs其渲染速度比jade要快，需要解决为什么？
 
 ###1.3.4 app.js 中的配置
 >  
@@ -88,8 +96,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname,'public')));    
 诸如此类
 
+> 诸如此类，这个词有问题，需要具体说明。
+> 文章可以直接介绍express4使用，不说中间件的事情；如果涉及“去除了对中间件的依赖”，需要指出为什么去除了connet，并与express3做配置上的对比。我建议加上对比的部分。
+
+
 **在这里需要说明的是，我们在安装所需要的第三方包时，正确地方法如为在根目录键入命令：  
 `npm install 所安装的包 --save`**
+
+> npm 的使用，会在1.2节，或者其他的章节具体介绍。
+
 这样也就保证的当前所需安装包得版本号都被自动写入package.json这样的好处是方便以后工程的维护。  
 关于`app.set()`的几点介绍：
 >
@@ -121,6 +136,8 @@ ejs 的标签系统非常简单，它只有以下三种标签：
 + <%- code %>：显示原始 HTML 内容。
 在这里 <%= code %> 和 <%- code %> 的区别，当变量 code 为普通字符串时，两者没有区别。当 code 比如为`<h1>Nodejs</h1>` 这种字符串时，<%= code %> 会原样输出h1大小的Nodejs，而 <%- code %> 则会显示 H1 大的 Nodejs字符串。  
 语法就是这么简单。  
+
+> 三种使用，需要给代码 和 执行效果的具体说明。
 
 ##1.3.6 使用Bootstrap  
 
