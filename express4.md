@@ -13,7 +13,10 @@ Express是基于Nodejs上一款非常优秀的Web服务器应用开发框架，�
 + npm v1.4.9
 + MongoDB v2.4.3
 
-> 这部分mongo的启动日志有点突兀？ 是不是能过滤一下？
+每一个web程序都应当要与数据库打交道，除非是静态网站，在我们目前的项目中我们使用Mongodb作为我们这个应用的数据库，  
+读者可`mongodb`官网下载稳定版本的`mongodb`,因为笔者的环境是`mac`,在`mac`下启动`Mongod`服务器方法为：  
+到含有`mongod`文件的目录下执行 ：`./mongod --dbpath= ../../mydata`,**参数--dbpath是本机保存用户数据的目录路径，读者可以根据那你的情况而定**  
+在`windows`下命令差不多：`F:/MongoDB/mongod.exe --dbpath F:/MongoDB/data/mydata`
 
 启动Mongo程序
 ```{bash}
@@ -33,10 +36,9 @@ Tue May 14 09:24:51.827 [websvr] admin web console waiting for connections on po
 
 
 ###1.3.2 建立工程  
-应为笔者是在`Mac`下建立对应的Nodejs工程的，倘若你的机器是`Linux`或者`Windows`这里的操作同样也是使用的
-路径 ：`cd /zZpig/Document/worke/`    
+应为笔者是在`Mac`下建立对应的`Nodejs`工程的,路径为 ：`cd /zZpig/Document/myFirstWebApp/`  
+读者可以依据自己的环境搭建自己的`Nodejs`工程目录。  
 
-> window的路径是不一样的。
 
 创建工程，因为在`express3.x`中只需要在命令行中键入 `npm install express -g`之后就将express进行全局安装，这也就意味着你可以  
 通过命令:`express -e myFirstWebApp`在你的工作目录中创建一个如以下的文件结构：  
@@ -62,14 +64,12 @@ public
 我们可以直接在命令行中直接键入相应的命令执行相应的操作，而不是到安装的目录下再键入命令。  
 在我们建立一个`web`工程的时候 `-e`是表示在创建项目时默认的使用`ejs`这样的模板引擎。
 
-之后在工作目录中键入`node app` 或者`npm start`就可以启动我们的app了  
-
-> node app.js ，启动需要对应的文件名
+之后在工作目录中键入`node app.js` 或者`npm start`就可以启动我们的app了  
 
 
 但是在目前的Express4.x中以上的命令不管用了.为此，我们还需要安装:`npm install -g express-generator`  
 通过这个我们就可以像上面一样，进行工程的创建,特别需要注意的是，最好加上`sudo`也就是`sudo npm install -g express-generator`
-在我们通过全局安装`Express4.x`之后，创建工程和`Express3.x`创建工程一样的命令也是通过`express -g myFirstWebApp`,然而我们得到
+在我们通过全局安装`Express4.x`之后，创建工程和`Express3.x`创建工程一样的命令也是通过`express -e myFirstWebApp`,然后我们得到
 的项目工程目录却比以前的多出了一个`bin`文件夹，在`bin`文件夹下是一个`www`的文件，这也是目前程序的主入口
 。我们启动也不需要到这个目录下，而是在根目录下键入命令`npm start`稍等片刻，我们就可以在`localhost:3000`中看到我们第一个基于Nodejs的web应用了。  
 
@@ -254,7 +254,7 @@ module.exports = router;
 
 ```  
 
-现在在我们的views目录下创建login.ejs文件  
+现在在我们的`views`目录下创建login.ejs文件  
 
 ```{html}
 <% include header %>
@@ -272,7 +272,7 @@ module.exports = router;
 <% include footer %>
 ```
 
-同样的在views目录下创建home.ejs  
+同样的在`views`目录下创建home.ejs  
 ```
 <% include header %>
 	<h1>Welcome <%= user.username %>, 欢迎登陆！！</h1>
@@ -280,9 +280,12 @@ module.exports = router;
 <% include footer %>
 ```  
 
-好了到目前为止，整个简单的web雏形已经完成了，运行吧。  
-
-> 运行需要有运行过程的描述，比如 1)启动命令node app.js, 2)打开浏览器 http://locahost:3000 3)看到什么样的界面，需要有截图。
+好了到目前为止，整个简单的web雏形已经完成了,让我们一起在**根目录**键入命令运行吧：  
+```{bash}
+npm start
+```
+感觉打开浏览器，键入`localhost:3000`  
+读者将看到欢迎字样的标题。  
 
 ##1.3.8 会话支持(session)  
 
@@ -290,18 +293,20 @@ module.exports = router;
 为了在无状态的 HTTP 协议之上实现会话，Cookie 诞生了。Cookie 是一些存储在客户端的信息，每次连接的时候由浏览器向服务器递交，服务器也向浏览器发起存储 Cookie 的请求，依靠这样的手段服务器可以识别客户端。我们通常意义上的 HTTP 会话功能就是这样实现的。具体来说，浏览器首次向服务器发起请求时，服务器生成一个唯一标识符并发送给客户端浏览器，浏览器将这个唯一标识符存储在 Cookie 中，以后每次再发起请求，客户端浏览器都会向服务器传送这个唯一标识符，服务器通过这个唯一标识符来识别用户。 对于开发者来说，我们无须关心浏览器端的存储，需要关注的仅仅是如何通过这个唯一标识符来识别用户。很多服务端脚本语言都有会话功能，如 PHP，把每个唯一标识符存储到文件中。
 ——《Node.js开发指南》   
 
-> 引入完定义以后，需要用自己的话进行描述，在我们的项目中怎么使用，不能简单的列出定义就完了！
+其实会话支持，通俗点说就是服务器要知道是不是同一个用户进行的本次请求，因为HTTP协议是无状态的，
+通过session可维持用户会话状态。  
 
-> 为什么要用mongodb来保存会话信息？需要解释。
 
-
-在nodejs中支持会话，我们可通过mongodb保存会话的相关信息，我们需要安装这么几个第三方包：  
+在nodejs中支持会话，通过mongodb把话信息存储在数据库中以避免丢失
+我们需要安装这么几个第三方包：  
 ```{bash}
 npm install express-session --save  
 npm install connect-mongo --save  
 ```
 
-> 分别解释，为什么需要这个包？能干什么用？
+`connect-mongo`的作用是：将所连接的会话信息存储在MongoDB中  
+`express-session`是express关于session存储设置的一个第三方包，他们的具体使用如下：  
+
 
 安装好后，我们在app.js文件的第二行加上`var session = require('express-session');`和`var MongoStore = require('connect-mongo')(session);`  
 并且在`app.use(express.static(path.join(__dirname, 'public')));`后加上：  
@@ -315,15 +320,22 @@ app.use(session({
         collection:'session'
     })
 }));
-```  
+``` 
+**参数解释：**
+> 
+secret: 用来第三方防止篡改 cookie  
+key: 就是cookie的名字  
+cookie中的maxAge就是设定次cookie的生存周期  
+store: 其参数为MongoStore的实例，也就是说将会话信息存到mongodb中以免丢失  
 
-> 修改比较多的话，最好能列出整个文件，不是简单写，第几行加什么。
+
 
 编辑app.js文件
 ```{javascript}
-//增加引用
+var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);`  
+app.use(cookieParser('secret'));  
 
 //.. 省略部分代码
 
@@ -331,20 +343,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // 增加session控制
 app.use(session({                       
-    secret:setting.cookieSecret,         //增加注释
-    key:'noder',                         //增加注释
-    cookie:{maxAge:3600000 * 24 * 30},   //增加注释
-    store:new MongoStore({               //增加注释
+    secret:'secret',         
+    key:'noder',                         
+    cookie:{maxAge:3600000 * 24 * 30},   
+    store:new MongoStore({              
         db:'nodWeb',
         collection:'session'
     })
 }));
 
-//修改注释
-app.use(cookieParser('secret'));  //改app.use(cookieParser());
-
 //.. 省略部分代码
 ```
+
+在这里想必大家注意到了在`app.use(cookieParser('secret'))`中的字符串:`secret`与`app.use(session({...}))`  
+中的secret的值一样，这也就是`cookie-parser`包的作用：解析http头中的cookie
 
 紧接着我们在`router`目录下的index.js中的
 
@@ -374,7 +386,7 @@ router.post('/login', function(req, res) {
 		password:'nodeAdmin'
 	}
 	if (req.body.username === user.username && req.body.password === user.password) {
-		req.session.user = user   //增加注释
+		req.session.user = user   //将用户信息保存到session中
 		res.redirect('/home');
 	} else {
 		res.redirect('login')
@@ -383,7 +395,7 @@ router.post('/login', function(req, res) {
 });
 
 router.get('/logout', function(req, res) {
-	res.session.user = null;          //增加注释
+	res.session.user = null;          //清空session中的信息，用户登出
 	res.redirect('/');
 });
 ```
@@ -393,8 +405,9 @@ router.get('/logout', function(req, res) {
 
 **这里需要说明的是页面同时需要依赖于1.3.7中的session。**  
 我们在这里要安装一个中间件`connect-flash;`通过`npm install connect-flash --save`  
-
-> 解释一下，为什么需要这个包？能干什么用？
+**我们为什么要使用这个包**  
+通过使用`connect-flash`我们可以将错误消息或者提示信息友好的展示给用户，让用户知道现在的状态，  
+比如：用户登入失败，我们可以通过`connect-flash`相关的方法提示给用户。等等
 
 对照使用：  
 ```
@@ -435,7 +448,7 @@ router.get('/', function(req, res) {
   });  
 });
 ```  
-如何使用：  
+**如何使用：**  
 在客户端经行post时，我们在对应的`router.post()`方法下加上如果有错误  
 ```
 req.flash('error','请键入正确的密码');
