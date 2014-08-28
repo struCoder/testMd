@@ -1,22 +1,27 @@
 ### 1.3    使用Express框架开发Nodejs应用 
 
 Express是基于Nodejs上一款非常优秀的Web服务器应用开发框架，可以说，Express专为Nodejs量身定做，使用Express可以让你开发Web应用非常的高效，
-同样使用Express我们可以很轻松的搭建REST的Web服务，我们将通过循序渐进的方法一步步的带领读者初步的学习和理解Expess框架，在学完本章节之后我们就可以写出一个使用Express开发出的简单的web应用了。  
+同样使用Express我们可以很轻松的搭建基于REST的Web服务，我们将通过循序渐进的方法一步步的带领读者初步的学习和理解Expess框架，在学完本节之后我们就可以写出一个完整的Web应用了。  
 
 ###1.3.1 开发环境
 自己目前是使用的`Mac 64 bit` 机器，当然Express框架支持Windows以及Linux，同样的命令以及同样的操作，唯一的区别就是在`Mac`或者
 `Linux`上键入对应的命令的时候有时需要加上`sudo`也就是以管理员的身份安装这些应用。
 
-开发环境的版本
+开发环境的软件版本
 
++ Mac 64 bit
 + nodejs v0.10.28
 + npm v1.4.9
 + MongoDB v2.4.3
 
-每一个web程序都应当要与数据库打交道，除非是静态网站，在我们目前的项目中我们使用Mongodb作为我们这个应用的数据库，  
-读者可`mongodb`官网下载稳定版本的`mongodb`,因为笔者的环境是`mac`,在`mac`下启动`Mongod`服务器方法为：  
-到含有`mongod`文件的目录下执行 ：`./mongod --dbpath= ../../mydata`,**参数--dbpath是本机保存用户数据的目录路径，读者可以根据那你的情况而定**  
-在`windows`下命令差不多：`F:/MongoDB/mongod.exe --dbpath F:/MongoDB/data/mydata`
+每一个Web程序都应当要与数据库打交道，除非是静态网站，在我们目前的项目中，我们使用MongoDB作为我们这个应用的数据库，读者可MongoDB的官网下载稳定版本的MongoDB，因为笔者的环境是Mac,在Mac下启动MongoDB服务器方法为：  
+到含有mongod文件的目录下执行 ：`./mongod --dbpath= ../../mydata`, 参数--dbpath是本机保存用户数据的目录路径，读者可以根据那你的情况而定
+
+在Windows下命令差不多：
+
+```{bash}
+F:/MongoDB/mongod.exe --dbpath F:/MongoDB/data/mydata
+```
 
 启动Mongo程序
 ```{bash}
@@ -36,6 +41,7 @@ Tue May 14 09:24:51.827 [websvr] admin web console waiting for connections on po
 
 
 ###1.3.2 建立工程  
+
 应为笔者是在`Mac`下建立对应的`Nodejs`工程的,路径为 ：`cd /zZpig/Document/myFirstWebApp/`  
 读者可以依据自己的环境搭建自己的`Nodejs`工程目录。  
 
@@ -43,13 +49,27 @@ Tue May 14 09:24:51.827 [websvr] admin web console waiting for connections on po
 创建工程，因为在`express3.x`中只需要在命令行中键入 `npm install express -g`之后就将express进行全局安装，这也就意味着你可以  
 通过命令:`express -e myFirstWebApp`在你的工作目录中创建一个如以下的文件结构：  
 
+> 这里最好通过把文字描述和代码分开，代码要明确告诉用户，让他可以复制代码就能和文章同步。
+> 你这种文字和代码混写的方式，有点上下文衔接不上。
+
+
+建立工程目录，代码如下：
+
 ```{bash}
-package.json  
-app.js  
-public  
-/public/javascripts  
-/public/images  
-/public/stylesheets  
+cd /zZpig/Document/myFirstWebApp/    //进入目录
+npm install express -g               //全局安装express包
+express -e myFirstWebApp             //通过express包，在当前目录新建myFirstWebApp工程，并使用EJS模板引擎
+```
+
+生成的项目结构，如下：
+
+```{bash}
+package.json         // 项目配置文件
+app.js               // 程序启动文件
+public               // Web目录 
+/public/javascripts  //Javascript目录
+/public/images       //....
+/public/stylesheets  //....
 /public/stylesheets/style.css  
 /routes  
 /routes/index.js  
@@ -59,7 +79,8 @@ public
 ```
 
 
-**相关命令的解释**
+相关命令的解释
+
 当我们最初安装Express4.x的时候所加上的`-g`也就表示了，我们是通过全局的方式安装Express的。这样的好处就是，
 我们可以直接在命令行中直接键入相应的命令执行相应的操作，而不是到安装的目录下再键入命令。  
 在我们建立一个`web`工程的时候 `-e`是表示在创建项目时默认的使用`ejs`这样的模板引擎。
@@ -77,7 +98,7 @@ public
 
 安装 supervisor
 ```{bash}
-sudo npm install supervisor -g
+sudo npm install supervisor -g      //全局安装supervisor包
 ```
 
 启动我们的项目： `supervisor www`这里需要注意的是启动项目的时候一定要从项目主入口文件进行启动，不然会报错  
@@ -96,6 +117,8 @@ sudo npm install supervisor -g
 这里有一点需要说明的是，关于模板引擎，在这里我们使用Ejs,语法简单十分且方便控制  
 
 ###1.3.4 app.js 中的配置
+
+> 增加描述 app.js是什么，干什么用的，为什么要写这个配置。
 
 ```{bash}
 var express = require('express');  
@@ -505,6 +528,12 @@ router.use(function(req, res) {
 
 本章节到此就完成了。在本章节中，我们通过一个简单的例子了解到如通过Express框架高效的开发Nodejs的web应用，
 在这里笔者也是抛砖引玉。
+
+
+
+> 增加一张图片的demo
+
+![](/img/1.png)
 
 
 
